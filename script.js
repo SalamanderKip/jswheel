@@ -1,5 +1,9 @@
-let label = ['test', 'test']
-let rotation = { start: 0, end: 0, lock: false}
+let labels = ['test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test', 'test']
+let rotation = {
+    start: 0,
+    end: 0,
+    lock: false
+}
 
 createWheel()
 createSpinButton()
@@ -23,9 +27,9 @@ function createWheel() {
     document.body.appendChild(wheel)
 }
 
-function createSegment(index, label, rotation, wheel) {
+function createSegment(index, labels, rotation, wheel) {
     const div = document.createElement('div')
-    div.innerHTML = label
+    div.innerHTML = labels
     div.classList.add("segment")
     div.style.transform = "rotate(" + rotation + "deg)"
     div.style.zIndex = (index + 1)
@@ -37,7 +41,7 @@ function createSpinButton() {
     div.innerHTML = "Spin"
     div.classList.add("spinbutton")
     document.body.appendChild(div)
-    div.addEventListener('click', function (){ 
+    div.addEventListener('click', function () {
         if (!rotation.lock) {
             console.log('click')
             rotation.end = getRandomIntegerBetween(rotation.start + 90, rotation.start + 270)
@@ -49,18 +53,25 @@ function createSpinButton() {
 }
 
 function createSpinAnimationClass(startRot, endRot) {
-if (document.getElementById('dynamicCSS')) {
+    if (document.getElementById('dynamicCSS')) {
+        let style = document.getElementById('dynamicCSS')
+        if (!style) {
+            style = document.createElement('style')
+            style.setAttribute('type', 'text/css')
+            style.setAttribute('id', 'dynamicCSS')
+        }
 
+        style.innerHTML = '.spin { animation: spinAnimation 1s forwards; transform-origin: 0px 20px; }'
+        style.innerHTML += '@keyframes spinAnimation { from {transform: rotate(' + startRot + 'deg);} to {transform: rotate(' + endRot + 'deg)'
+        document.getElementsByTagName('head')[0].appendChild(style)
+        document.getElementById('wheel').classList.add('spin')
+    }
 }
 
-let style = document.getElementById('dynamicCSS')
-if (!style) {
-style = document.createElement('style')
-style.setAttribute('type', 'text/css')
-style.setAttribute('id', 'dynamicCSS')
+function getRandomIntegerBetween(min, max) {
+    return Math.floor(Math.random() * (max - min +1) + min)
 }
-style.innerHTML = '.spin { animation: spinAnimation 1s forwards; transform-origin: 0px 20px; }'
-style.innerHTML += '@keyframes spinAnimation { from {transform: rotate(' + startRot + 'deg);} to {transform: rotate(' + endRot + 'deg)'
-document.getElementsByTagName('head')[0].appendChild(style)
-document.getElementById('wheel').classList.add('spin')
+
+Element.prototype.remove = function () {
+    this.parentElement.removeChild(this)
 }
